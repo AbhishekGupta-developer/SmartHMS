@@ -1,0 +1,64 @@
+package com.myorganisation.smarthms.service;
+
+import com.myorganisation.smarthms.dto.DoctorRequestDTO;
+import com.myorganisation.smarthms.dto.DoctorResponseDTO;
+import com.myorganisation.smarthms.model.Doctor;
+import com.myorganisation.smarthms.repository.DoctorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class DoctorServiceImpl implements DoctorService {
+
+    @Autowired
+    DoctorRepository doctorRepository;
+
+    @Override
+    public DoctorResponseDTO registerDoctor(DoctorRequestDTO doctorRequestDTO) {
+        Doctor doctor = new Doctor();
+
+        doctor.setName(doctorRequestDTO.getName());
+        doctor.setGender(doctorRequestDTO.getGender());
+        doctor.setSpecialization(doctorRequestDTO.getSpecialization());
+        doctor.setShift(doctorRequestDTO.getShift());
+        doctor.setEmail(doctorRequestDTO.getEmail());
+        doctor.setPhone(doctorRequestDTO.getPhone());
+        doctor.setPassword(doctorRequestDTO.getPassword());
+
+        doctor = doctorRepository.save(doctor);
+
+        DoctorResponseDTO doctorResponseDTO = new DoctorResponseDTO();
+
+        doctorResponseDTO.setId(doctor.getId());
+        doctorResponseDTO.setName(doctor.getName());
+        doctorResponseDTO.setGender(doctor.getGender());
+        doctorResponseDTO.setSpecialization(doctor.getSpecialization());
+        doctorResponseDTO.setShift(doctor.getShift());
+        doctorResponseDTO.setEmail(doctor.getEmail());
+        doctorResponseDTO.setPhone(doctor.getPhone());
+
+        return doctorResponseDTO;
+    }
+
+    @Override
+    public DoctorResponseDTO getDoctor(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<DoctorResponseDTO> getAllDoctors() {
+        return null;
+    }
+
+    @Override
+    public DoctorResponseDTO updateDoctor(Long id, DoctorRequestDTO doctorRequestDTO) {
+        return null;
+    }
+
+    @Override
+    public String removeDoctor(Long id) {
+        return "";
+    }
+}
