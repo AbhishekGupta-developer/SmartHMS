@@ -18,74 +18,46 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public DoctorResponseDTO registerDoctor(DoctorRequestDTO doctorRequestDTO) {
-        Doctor doctor = new Doctor();
-
-        doctor.setName(doctorRequestDTO.getName());
-        doctor.setGender(doctorRequestDTO.getGender());
-        doctor.setSpecialization(doctorRequestDTO.getSpecialization());
-        doctor.setShift(doctorRequestDTO.getShift());
-        doctor.setEmail(doctorRequestDTO.getEmail());
-        doctor.setPhone(doctorRequestDTO.getPhone());
-        doctor.setPassword(doctorRequestDTO.getPassword());
-
+        Doctor doctor = copyDoctorRequestDTOToDoctor(doctorRequestDTO, new Doctor());
         doctor = doctorRepository.save(doctor);
-
-        DoctorResponseDTO doctorResponseDTO = new DoctorResponseDTO();
-
-        doctorResponseDTO.setId(doctor.getId());
-        doctorResponseDTO.setName(doctor.getName());
-        doctorResponseDTO.setGender(doctor.getGender());
-        doctorResponseDTO.setSpecialization(doctor.getSpecialization());
-        doctorResponseDTO.setShift(doctor.getShift());
-        doctorResponseDTO.setEmail(doctor.getEmail());
-        doctorResponseDTO.setPhone(doctor.getPhone());
-
-        return doctorResponseDTO;
+        return convertDoctorToDoctorResponseDTO(doctor);
     }
 
     @Override
     public DoctorResponseDTO getDoctor(Long id) {
         Doctor doctor = doctorRepository.findById(id).orElse(null);
-
-        DoctorResponseDTO doctorResponseDTO = new DoctorResponseDTO();
-        doctorResponseDTO.setId(doctor.getId());
-        doctorResponseDTO.setName(doctor.getName());
-        doctorResponseDTO.setGender(doctor.getGender());
-        doctorResponseDTO.setSpecialization(doctor.getSpecialization());
-        doctorResponseDTO.setShift(doctor.getShift());
-        doctorResponseDTO.setEmail(doctor.getEmail());
-        doctorResponseDTO.setPhone(doctor.getPhone());
-
-        return doctorResponseDTO;
+        return convertDoctorToDoctorResponseDTO(doctor);
     }
 
     @Override
     public List<DoctorResponseDTO> getAllDoctors() {
         List<Doctor> doctorList = doctorRepository.findAll();
-
         List<DoctorResponseDTO> doctorResponseDTOList = new ArrayList<>();
-
         for(Doctor doctor : doctorList) {
-            DoctorResponseDTO doctorResponseDTO = new DoctorResponseDTO();
-
-            doctorResponseDTO.setId(doctor.getId());
-            doctorResponseDTO.setName(doctor.getName());
-            doctorResponseDTO.setGender(doctor.getGender());
-            doctorResponseDTO.setSpecialization(doctor.getSpecialization());
-            doctorResponseDTO.setShift(doctor.getShift());
-            doctorResponseDTO.setEmail(doctor.getEmail());
-            doctorResponseDTO.setPhone(doctor.getPhone());
-
-            doctorResponseDTOList.add(doctorResponseDTO);
+            doctorResponseDTOList.add(convertDoctorToDoctorResponseDTO(doctor));
         }
-
         return doctorResponseDTOList;
     }
 
     @Override
     public DoctorResponseDTO updateDoctor(Long id, DoctorRequestDTO doctorRequestDTO) {
         Doctor doctor = doctorRepository.findById(id).orElse(null);
+        copyDoctorRequestDTOToDoctor(doctorRequestDTO, doctor);
+        doctorRepository.save(doctor);
+        return convertDoctorToDoctorResponseDTO(doctor);
+    }
 
+    @Override
+    public String removeDoctor(Long id) {
+        String name = doctorRepository.findById(id).orElse(null).getName();
+        doctorRepository.deleteById(id);
+        return "Doctor: " + name + "(ID: " + id + ") has been removed successfully!";
+    }
+
+    //Helper methods
+
+    //Copy DoctorRequestDTO to Doctor
+    private Doctor copyDoctorRequestDTOToDoctor(DoctorRequestDTO doctorRequestDTO, Doctor doctor) {
         doctor.setName(doctorRequestDTO.getName());
         doctor.setGender(doctorRequestDTO.getGender());
         doctor.setSpecialization(doctorRequestDTO.getSpecialization());
@@ -94,8 +66,11 @@ public class DoctorServiceImpl implements DoctorService {
         doctor.setPhone(doctorRequestDTO.getPhone());
         doctor.setPassword(doctorRequestDTO.getPassword());
 
-        doctor = doctorRepository.save(doctor);
+        return doctor;
+    }
 
+    //Convert Doctor to DoctorResponseDTO
+    private DoctorResponseDTO convertDoctorToDoctorResponseDTO(Doctor doctor) {
         DoctorResponseDTO doctorResponseDTO = new DoctorResponseDTO();
         doctorResponseDTO.setId(doctor.getId());
         doctorResponseDTO.setName(doctor.getName());
@@ -108,12 +83,4 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorResponseDTO;
     }
 
-    @Override
-    public String removeDoctor(Long id) {
-        String name = doctorRepository.findById(id).orElse(null).getName();
-
-        doctorRepository.deleteById(id);
-
-        return "Doctor: " + name + "(ID: " + id + ") has been removed successfully!";
-    }
 }
