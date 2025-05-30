@@ -1,0 +1,149 @@
+{
+	"info": {
+		"_postman_id": "e2a380f4-e638-4679-b85c-f28f02610d44",
+		"name": "SmartHMS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41965744"
+	},
+	"item": [
+		{
+			"name": "Server status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/SmartHMS",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"SmartHMS"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register doctor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Abhishek\",\r\n    \"gender\": \"MALE\",\r\n    \"specialization\": \"NEUROLOGIST\",\r\n    \"shift\": \"DAY\",\r\n    \"email\": \"abhishek@smarthms.com\",\r\n    \"phone\": \"8840204441\",\r\n    \"password\": \"root\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/SmartHMS/doctor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"SmartHMS",
+						"doctor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get doctor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/SmartHMS/doctor/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"SmartHMS",
+						"doctor",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all doctors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/SmartHMS/doctor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"SmartHMS",
+						"doctor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update doctor",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Kundan\",\r\n    \"gender\": \"MALE\",\r\n    \"specialization\": \"CARDIOLOGIST\",\r\n    \"shift\": \"DAY\",\r\n    \"email\": \"kundan@smarthms.com\",\r\n    \"phone\": \"9711445977\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/SmartHMS/doctor/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"SmartHMS",
+						"doctor",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove doctor",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/SmartHMS/doctor?id=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"SmartHMS",
+						"doctor"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
