@@ -7,6 +7,7 @@ import com.myorganisation.smarthms.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,21 +45,75 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public DoctorResponseDTO getDoctor(Long id) {
-        return null;
+        Doctor doctor = doctorRepository.findById(id).orElse(null);
+
+        DoctorResponseDTO doctorResponseDTO = new DoctorResponseDTO();
+        doctorResponseDTO.setId(doctor.getId());
+        doctorResponseDTO.setName(doctor.getName());
+        doctorResponseDTO.setGender(doctor.getGender());
+        doctorResponseDTO.setSpecialization(doctor.getSpecialization());
+        doctorResponseDTO.setShift(doctor.getShift());
+        doctorResponseDTO.setEmail(doctor.getEmail());
+        doctorResponseDTO.setPhone(doctor.getPhone());
+
+        return doctorResponseDTO;
     }
 
     @Override
     public List<DoctorResponseDTO> getAllDoctors() {
-        return null;
+        List<Doctor> doctorList = doctorRepository.findAll();
+
+        List<DoctorResponseDTO> doctorResponseDTOList = new ArrayList<>();
+
+        for(Doctor doctor : doctorList) {
+            DoctorResponseDTO doctorResponseDTO = new DoctorResponseDTO();
+
+            doctorResponseDTO.setId(doctor.getId());
+            doctorResponseDTO.setName(doctor.getName());
+            doctorResponseDTO.setGender(doctor.getGender());
+            doctorResponseDTO.setSpecialization(doctor.getSpecialization());
+            doctorResponseDTO.setShift(doctor.getShift());
+            doctorResponseDTO.setEmail(doctor.getEmail());
+            doctorResponseDTO.setPhone(doctor.getPhone());
+
+            doctorResponseDTOList.add(doctorResponseDTO);
+        }
+
+        return doctorResponseDTOList;
     }
 
     @Override
     public DoctorResponseDTO updateDoctor(Long id, DoctorRequestDTO doctorRequestDTO) {
-        return null;
+        Doctor doctor = doctorRepository.findById(id).orElse(null);
+
+        doctor.setName(doctorRequestDTO.getName());
+        doctor.setGender(doctorRequestDTO.getGender());
+        doctor.setSpecialization(doctorRequestDTO.getSpecialization());
+        doctor.setShift(doctorRequestDTO.getShift());
+        doctor.setEmail(doctorRequestDTO.getEmail());
+        doctor.setPhone(doctorRequestDTO.getPhone());
+        doctor.setPassword(doctorRequestDTO.getPassword());
+
+        doctor = doctorRepository.save(doctor);
+
+        DoctorResponseDTO doctorResponseDTO = new DoctorResponseDTO();
+        doctorResponseDTO.setId(doctor.getId());
+        doctorResponseDTO.setName(doctor.getName());
+        doctorResponseDTO.setGender(doctor.getGender());
+        doctorResponseDTO.setSpecialization(doctor.getSpecialization());
+        doctorResponseDTO.setShift(doctor.getShift());
+        doctorResponseDTO.setEmail(doctor.getEmail());
+        doctorResponseDTO.setPhone(doctor.getPhone());
+
+        return doctorResponseDTO;
     }
 
     @Override
     public String removeDoctor(Long id) {
-        return "";
+        String name = doctorRepository.findById(id).orElse(null).getName();
+
+        doctorRepository.deleteById(id);
+
+        return "Doctor: " + name + "(ID: " + id + ") has been removed successfully!";
     }
 }

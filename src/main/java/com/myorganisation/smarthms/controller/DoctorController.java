@@ -6,10 +6,9 @@ import com.myorganisation.smarthms.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/doctor")
@@ -21,5 +20,25 @@ public class DoctorController {
     @PostMapping
     public ResponseEntity<DoctorResponseDTO> registerDoctor(@RequestBody DoctorRequestDTO doctorRequestDTO) {
         return new ResponseEntity<>(doctorService.registerDoctor(doctorRequestDTO), HttpStatusCode.valueOf(201));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DoctorResponseDTO> getDoctor(@PathVariable(name = "id") Long id) {
+        return new ResponseEntity<>(doctorService.getDoctor(id), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DoctorResponseDTO>> getAllDoctors() {
+        return new ResponseEntity<>(doctorService.getAllDoctors(), HttpStatusCode.valueOf(200));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DoctorResponseDTO> updateDoctor(@PathVariable(name = "id") Long id, @RequestBody DoctorRequestDTO doctorRequestDTO) {
+        return new ResponseEntity<>(doctorService.updateDoctor(id, doctorRequestDTO), HttpStatusCode.valueOf(201));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> removeDoctor(@RequestParam(name = "id") Long id) {
+        return new ResponseEntity<>(doctorService.removeDoctor(id), HttpStatusCode.valueOf(200));
     }
 }
