@@ -2,6 +2,7 @@ package com.myorganisation.smarthms.controller;
 
 import com.myorganisation.smarthms.dto.DoctorRequestDTO;
 import com.myorganisation.smarthms.dto.DoctorResponseDTO;
+import com.myorganisation.smarthms.model.enums.Gender;
 import com.myorganisation.smarthms.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -40,5 +41,15 @@ public class DoctorController {
     @DeleteMapping
     public ResponseEntity<String> removeDoctor(@RequestParam(name = "id") Long id) {
         return new ResponseEntity<>(doctorService.removeDoctor(id), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<DoctorResponseDTO>> getDoctorByName(@RequestParam(name = "name") String name) {
+        return new ResponseEntity<>(doctorService.getDoctorByName(name), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<List<DoctorResponseDTO>> getDoctorByNameAndGender(@RequestParam(name = "name") String name, @RequestParam(name = "gender") Gender gender) {
+        return new ResponseEntity<>(doctorService.getDoctorByNameAndGender(name, gender), HttpStatusCode.valueOf(200));
     }
 }
