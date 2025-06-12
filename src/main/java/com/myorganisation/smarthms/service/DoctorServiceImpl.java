@@ -4,6 +4,7 @@ import com.myorganisation.smarthms.dto.DoctorRequestDTO;
 import com.myorganisation.smarthms.dto.DoctorResponseDTO;
 import com.myorganisation.smarthms.model.Doctor;
 import com.myorganisation.smarthms.model.enums.Gender;
+import com.myorganisation.smarthms.model.enums.Specialization;
 import com.myorganisation.smarthms.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,32 @@ public class DoctorServiceImpl implements DoctorService {
     public List<DoctorResponseDTO> getDoctorByNameAndGender(String name, Gender gender) {
         List<Doctor> doctorList = doctorRepository.findByNameContainingAndGender(name, gender);
 
+        List<DoctorResponseDTO> doctorResponseDTOList = new ArrayList<>();
+
+        for(Doctor doctor : doctorList) {
+            DoctorResponseDTO doctorResponseDTO = convertDoctorToDoctorResponseDTO(doctor);
+            doctorResponseDTOList.add(doctorResponseDTO);
+        }
+
+        return doctorResponseDTOList;
+    }
+
+    @Override
+    public List<DoctorResponseDTO> getDoctorsByGenderAndSpecialization(Gender gender, Specialization specialization) {
+        List<Doctor> doctorList = doctorRepository.searchDoctorsByGenderAndSpecialization(gender, specialization);
+        List<DoctorResponseDTO> doctorResponseDTOList = new ArrayList<>();
+
+        for(Doctor doctor : doctorList) {
+            DoctorResponseDTO doctorResponseDTO = convertDoctorToDoctorResponseDTO(doctor);
+            doctorResponseDTOList.add(doctorResponseDTO);
+        }
+
+        return doctorResponseDTOList;
+    }
+
+    @Override
+    public List<DoctorResponseDTO> getDoctorsByNameLike(String name) {
+        List<Doctor> doctorList = doctorRepository.searchDoctorsByNameLike(name);
         List<DoctorResponseDTO> doctorResponseDTOList = new ArrayList<>();
 
         for(Doctor doctor : doctorList) {

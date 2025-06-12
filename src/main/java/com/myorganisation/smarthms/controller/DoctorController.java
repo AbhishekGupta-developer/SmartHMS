@@ -3,6 +3,7 @@ package com.myorganisation.smarthms.controller;
 import com.myorganisation.smarthms.dto.DoctorRequestDTO;
 import com.myorganisation.smarthms.dto.DoctorResponseDTO;
 import com.myorganisation.smarthms.model.enums.Gender;
+import com.myorganisation.smarthms.model.enums.Specialization;
 import com.myorganisation.smarthms.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -51,5 +52,15 @@ public class DoctorController {
     @GetMapping("/find")
     public ResponseEntity<List<DoctorResponseDTO>> getDoctorByNameAndGender(@RequestParam(name = "name") String name, @RequestParam(name = "gender") Gender gender) {
         return new ResponseEntity<>(doctorService.getDoctorByNameAndGender(name, gender), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("/search/gender/{gender}/specialization/{specialization}")
+    public ResponseEntity<List<DoctorResponseDTO>> getDoctorsByGenderAndSpecialization(@PathVariable(name = "gender") Gender gender, @PathVariable(name = "specialization") Specialization specialization) {
+        return new ResponseEntity<>(doctorService.getDoctorsByGenderAndSpecialization(gender, specialization), HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping("/search/name/like/{name}")
+    public ResponseEntity<List<DoctorResponseDTO>> getDoctorsByNameLike(@PathVariable(name = "name") String name) {
+        return new ResponseEntity<>(doctorService.getDoctorsByNameLike(name), HttpStatusCode.valueOf(200));
     }
 }
