@@ -14,4 +14,8 @@ public class Patient {
 
     private String name;
     private String disease;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "invoice")
+    private Invoice invoice;
 }
