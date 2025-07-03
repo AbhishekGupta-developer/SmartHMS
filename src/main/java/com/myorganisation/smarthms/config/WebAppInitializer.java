@@ -1,5 +1,6 @@
 package com.myorganisation.smarthms.config;
 
+import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletRegistration;
 import org.springframework.web.WebApplicationInitializer;
@@ -19,5 +20,9 @@ public class WebAppInitializer implements WebApplicationInitializer {
         registration.addMapping("/");
 
         registration.setInitParameter("encoding", "UTF-8");
+
+        // Register CORS Filter
+        FilterRegistration.Dynamic corsFilter = servletContext.addFilter("CORSFilter", new CORSFilter());
+        corsFilter.addMappingForUrlPatterns(null, false, "/*");
     }
 }
